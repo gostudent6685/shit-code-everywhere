@@ -209,35 +209,3 @@
                           (list (col-func col-start) col-func)
                           (dec idx)))
         null)))
-
-
-
-
-
-#;(define (calc-ai mini-or-max game)
-  (define (reverse mini-or-max)
-    (if (eq? mini-or-max 'mini) 'max 'mini))
-  (let ([able-points (get-able-points game)]
-        [win-score (if (eq? mini-or-max 'max) 10 -10)])
-    (let ([scores (map (lambda (a-point)
-                         (let ([result (make-move game a-point)])
-                           (if (ended? result)
-                               (if (win? result)
-                                   (list win-score a-point)
-                                   (list 0 a-point))
-                               (calc-ai (reverse mini-or-max) result))))
-                       able-points)])
-      (list (sum-scores scores) (cadr (choose-score mini-or-max scores))))))
-#;(define (choose-score mini-or-max s)
-  (let ([cmp-func (if (eq? mini-or-max 'max) > <)])
-    (foldl (lambda (x y) (if (cmp-func (car x) (car y)) x y))
-           (car s)
-           (cdr s))))
-#;(define (sum-scores scores)
-  (car (foldl (lambda (x y) (list (+ (car x) (car y))))
-         '(0)
-         scores)))
-
-
-
-
