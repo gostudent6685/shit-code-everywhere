@@ -13,7 +13,9 @@
   (call-with-output-file filename (lambda (file) (write-json data file #:encode 'all)) #:exists 'replace))
 
 (define (load-moneyio [filename "moneyio.json"])
-  (set! *moneyio* (read-moneyio filename)))
+  (begin
+    (set! *moneyio* (read-moneyio filename))
+    (display *moneyio*)))
 (define (save-moneyio [filename "moneyio.json"])
   (write-moneyio *moneyio* filename))
 
