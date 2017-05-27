@@ -1,7 +1,5 @@
-# Python, 2017-05-27
 import json
 import datetime
-
 
 def getDate():
     return datetime.datetime.now().strftime("%Y-%m-%d")
@@ -16,6 +14,9 @@ def pop_all(the_list):
 class ExpenseManager:
     def __init__(this):
         this.DBdata = []
+
+    def setfilename(this, filename):
+        this.filename = filename
 
     def load(this, filename = "emtdb.json"):
         this.filename = filename
@@ -63,7 +64,7 @@ class ExpenseManager:
         this.DBdata.pop()
 
 def help_command():
-    print("commands \n \
+    print("commands \
 \n \
 \nshowme \
 \n    ; print data in nice form \
@@ -111,15 +112,23 @@ def interprete_msg(emt, s):
             else:
                 emt.load(_s[1])
         elif _s[0] == "save":
-            emt.save()
+            try:
+                emt.save()
+            except AttributeError:
+                filename = input ("save as: ")
+                emt.setfilename(filename)
+                emt.save()
         elif _s[0] == "sum":
             print(str(emt.sum()))
         elif _s[0] == "merge":
             emt.merge()
-        elif _s[0] == "q" or _s[0] == "quit":
+        elif _s[0] == "q" or _s[0] == "quit" or _s[0] == "exit":
             quit = True
         elif _s[0] == "pop":
-            emt.pop()
+            try:
+                emt.pop()
+            except IndexError:
+                print("don't try to pop with empty data")
         else:
             print("wrong input, try agin")
     except IndexError:
@@ -131,4 +140,4 @@ if __name__=="__main__":
     emt = ExpenseManager()
     quit = False
     while not quit:
-        quit = interprete_msg(emt, input())
+        quit = interprete_msg(emt, input("> "))
