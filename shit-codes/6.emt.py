@@ -1,3 +1,5 @@
+# Python, 2017-05-27
+# Expense Managing Tool
 import json
 import datetime
 
@@ -19,7 +21,7 @@ class ExpenseManager:
         this.filename = filename
 
     def load(this, filename = "emtdb.json"):
-        this.filename = filename
+        this.setfilename(filename)
         try:
             with open(filename, "r") as data:
                 this.DBdata = json.loads(data.readline())
@@ -131,7 +133,7 @@ def interprete_msg(emt, s):
                 print("don't try to pop with empty data")
         else:
             print("wrong input, try agin")
-    except IndexError:
+    except (IndexError, ValueError):
         print("wrong input, try again")
     return quit
 
